@@ -1,0 +1,91 @@
+\documentclass[fleqn]{article}
+\oddsidemargin=.05in
+\evensidemargin=.05in
+\topmargin=-.5in
+\textwidth=6in
+\textheight=9in
+\usepackage[utf8]{inputenc}
+
+\usepackage{fancyhdr}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,amsfonts,xfrac,physics}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor,extarrows}
+
+    \newcommand{\ZZ}{\mathbb{Z}}
+    \newcommand{\NN}{\mathbb{N}}
+    \newcommand{\RR}{\mathbb{R}}
+    \newcommand{\EE}{\mathbb{E}}
+    \newcommand{\OO}{\mathbb{O}}
+    \newcommand{\st}{\ \text{ s.t.}\ }
+    \newcommand{\nn}{n\in\mathbb{Z}}
+    \newcommand{\kk}{k\in\mathbb{Z}}
+    \newcommand{\power}{\mathcal{P}}
+    \newcommand{\ds}{\displaystyle}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Frederick Griffin}
+\lhead{CS 371- HW2}
+\rfoot{Page \thepage}
+
+
+\begin{document}
+
+the first proof wants us to describe a series of steps and prove that: Describe a sequence of some constant times N operations, which is some combination of adds and removes, and prove that this sequence has a total cost of O(N2). Conclude that the amortized cost of this sequence of adds and removes is O(N).
+
+\begin{proof}
+    we can begin by describing a series of steps:
+\newline step 0: let an array $A$ be filled with $N$ elements and thus have $N$ \newline step 1: add an element, which takes a constant $a$ times $N$ steps (aka $O(N)$), due to the need to double the length
+\newline step 2: add an element, which takes constant $O(1)$ due to not needing to adjust the length of the array, which is now $2*N$
+\newline step 3: remove an element, which takes constant $O(1)$ time, as it is not reducing the length of $N$ to less than half
+\newline step 4: remove an element, which lowers the length of $N$ to $(1/2*a*N)$, thus it requires a halving. Halving takes the same amount of time as doubling, such that the value is a constant $a$ times $N$ steps, or $O(N)$. 
+\newline As established above, adding or subtracting when there is no need to double or halve respectively takes a constant $O(1)$ time, thus we can observe the steps as a rapid succession of halves and doubling due to the constant nature of adding or subtracting elements within a list that is proportionately sized. The following table is then our steps and costs:
+\newline
+\begin{center}
+ \begin{tabular}{||c c c c||} 
+ \hline
+ StepNum & action & costs \\ [0.5ex] 
+ \hline\hline
+ 1 & add & $O(N)$ \\ 
+ \hline
+ 2 & remove & $O(N)$ \\
+ \hline
+ 3 & add & $O(N)$ \\
+ \hline
+ 4 & remove & $O(N)$ \\
+ \hline
+ 5 & add & $O(N)$ \\ [1ex] 
+ \hline
+ 
+\end{tabular}
+\end{center}
+\newline we can then look at the total costs per action, such that we pretty always either have constant time or $O(N)$ time, since the definition of amortized costs is the Big O value divided by $n$ where $n$ is the number of steps, we can say that the total costs of the add and remove is equal to $n * O(N)$, such that the amortized costs would be $\frac{n*O(N)}{n}$, or $O(N)$, since $O(N) \neq O(1)$ the result follows. 
+\end{proof}
+
+This is basically the formula we have to prove: 
+\newline $1 + 2 + 3 + \dots + N = \frac{N*(N+1)}{2}$ for all $N \geq 1$ because you cannot have a negative number of elements, or zero number of elements
+
+\begin{enumerate}
+    \item prove that $1 + 2 + 3 + \dots + N = \frac{N*(N+1)}{2}$ for all $N \geq 1$
+    \begin{proof}
+    we proceed by induction on $N$, with the base case being that $N = 1$. It follows:
+    \newline $1 = \frac{1*(1+1)}{2}$
+    \newline $1 = \frac{2}{2}$
+    \newline $1 = 1$
+    \newline Thus the base case is satisfied. Let us assume the inductive hypothesis:  $\exists k \geq 1$ such that $1 + 2 + 3 + \dots + k = \frac{k*(k+1)}{2}$. We wish to show that $1 + 2 + 3 + \dots + k + (k+1) = \frac{(k+1)*((k+1)+1)}{2}$
+    \newline since $1 + 2 + 3 + \dots + k = \frac{k*(k+1)}{2}$, it follows that:
+    \newline $1 + 2 + 3 + \dots + k + (k+1)= \frac{k*k+1}{2} + k+1$ 
+    \newline $1 + 2 + 3 + \dots + k + (k+1)= \frac{k*k+1 * 2(k+1)}{2}$ by $\frac{2}{2} = 1$ 
+    \newline $1 + 2 + 3 + \dots + k + (k+1)= \frac{(k+1)(k+2)}{2}$ by distribution of multiplication
+    \newline $1 + 2 + 3 + \dots + k + k+1= \frac{(k+1)*(k+1)+1}{2}$
+    and the result is shown
+    
+    \end{proof}
+\end{enumerate}
+
+
+
+\end{document}
